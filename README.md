@@ -3,48 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Secure File Upload & Metadata Processing Microservice</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      background-color: #f9f9f9;
-      color: #222;
-    }
-    h1, h2, h3, h4 {
-      color: #2c3e50;
-    }
-    pre {
-      background-color: #272822;
-      color: #f8f8f2;
-      padding: 1rem;
-      border-radius: 6px;
-      overflow-x: auto;
-    }
-    code {
-      font-family: 'Source Code Pro', monospace;
-      background-color: #f1f1f1;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-    hr {
-      margin: 2rem 0;
-      border: none;
-      border-top: 2px solid #ddd;
-    }
-    ul, ol {
-      margin-left: 1.5rem;
-    }
-    li {
-      margin-bottom: 0.5rem;
-    }
-    strong {
-      color: #34495e;
-    }
-  </style>
 </head>
 <body>
 
@@ -73,8 +31,10 @@ REDIS_HOST=localhost
 REDIS_PORT=6379
 </code></pre>
     </li>
-    <li><strong>Start Redis server</strong> (if using locally)<br />
-      Ensure Redis is running on your machine (default port 6379).
+    <li><strong>Start Redis server</strong>
+      <p>If you don’t have Redis installed locally, run Redis using Docker:</p>
+      <pre><code>docker run -p 6379:6379 --name redis -d redis</code></pre>
+      <p>This command runs Redis in a Docker container, exposing it on port 6379.</p>
     </li>
     <li><strong>Run the application</strong>
       <p>Start the backend server:</p>
@@ -100,7 +60,7 @@ REDIS_PORT=6379
   <pre><code>{
   "message": "User created successfully"
 }</code></pre>
-  <p>Use this endpoint to create a new user account. If no role is specified, it defaults to <code>"user"</code>.</p>
+  <p>Create a new user. If no role is provided, defaults to <code>"user"</code>.</p>
 
   <h4>🔑 Login</h4>
   <p><strong>POST <code>/api/auth/login</code></strong></p>
@@ -113,7 +73,7 @@ REDIS_PORT=6379
   <pre><code>{
   "token": "jwt-token-string"
 }</code></pre>
-  <p>Use this JWT token in the <code>Authorization</code> header as <code>Bearer &lt;token&gt;</code> for all protected endpoints.</p>
+  <p>Use this JWT token in the <code>Authorization</code> header as <code>Bearer &lt;token&gt;</code> for protected routes.</p>
 
   <hr />
 
@@ -154,30 +114,34 @@ REDIS_PORT=6379
   "extracted_data": "checksum or mock data",
   "uploadedAt": "2025-06-04T12:00:00Z"
 }</code></pre>
-  <p>Access is restricted to the user who uploaded the file.</p>
+  <p>Only accessible by the uploader.</p>
 
   <hr />
 
   <h2>💡 Design Choices</h2>
   <ul>
-    <li><strong>Express.js framework</strong> for modularity, scalability, and maintainability.</li>
-    <li><strong>JWT authentication</strong> for stateless, secure access control.</li>
-    <li><strong>PostgreSQL</strong> with Sequelize ORM for easy database management and migrations.</li>
-    <li><strong>BullMQ + Redis</strong> for robust, reliable background job queueing and asynchronous processing.</li>
-    <li><strong>multer</strong> for efficient multipart file uploads and handling.</li>
-    <li><strong>Structured API paths</strong> with <code>/api</code> prefix for clarity and versioning readiness.</li>
+    <li><strong>Express.js</strong> for modularity and scalability.</li>
+    <li><strong>JWT</strong> for secure, stateless authentication.</li>
+    <li><strong>PostgreSQL</strong> with Sequelize ORM for easy DB management.</li>
+    <li><strong>BullMQ + Redis</strong> for reliable background job queueing.</li>
+    <li><strong>multer</strong> for multipart file uploads.</li>
   </ul>
 
   <hr />
 
   <h2>⚠️ Known Limitations &amp; Assumptions</h2>
   <ul>
-    <li>No frontend/UI included — backend-only microservice.</li>
-    <li>Background job retries and failure handling are basic and can be improved.</li>
-    <li>Minimal metadata validation is implemented.</li>
-    <li>User management is simple — assumes a static or small user base.</li>
-    <li>Passwords stored securely (hashed) recommended; plaintext only for demo/testing.</li>
+    <li>Backend only; no frontend/UI included.</li>
+    <li>Basic job retry and failure handling.</li>
+    <li>Minimal metadata validation.</li>
+    <li>Simple user management, no advanced RBAC.</li>
   </ul>
+
+  <hr />
+
+  <h2>🔗 Postman Collection</h2>
+  <p>Explore and test the APIs using the Postman collection here:</p>
+  <p><a href="https://assignments-4443.postman.co/workspace/assignments-Workspace~d1f7d716-d889-4ce4-b2b9-de23c4e917d2/collection/13570335-34b03dba-7d3b-40f4-84c1-5451c360bfeb?action=share&creator=13570335" target="_blank" rel="noopener noreferrer">Postman Collection Link 🚀</a></p>
 
 </body>
 </html>
